@@ -13,6 +13,7 @@ class Router
     private function register(string $requestMethod, string $route, callable|array $action): self
     {
         $this->routes[$requestMethod][$route] = $action;
+
         return $this;
     }
 
@@ -51,7 +52,7 @@ class Router
                 $instance = new $class();
 
                 if (method_exists($instance, $method)) {
-                    return call_user_func([$instance, $method], []);
+                    return call_user_func(array($instance, $method), array());
                 }
             }
         }

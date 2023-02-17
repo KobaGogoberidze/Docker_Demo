@@ -4,33 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\EmailService;
+use App\Services\SmsService;
 use App\View;
-use PDO;
 
 class HomeController
 {
-    public function index(): View
+    public function __construct(protected EmailService $emailService, protected SmsService $smsService)
     {
-        $db = new PDO('mysql:host=db;dbname=my_db','root','root',[
-            
-        ]);
-        
-        $query = 'SELECT * FROM users inner join invoices on users.id = invoices.user_id';
-        $stmnt = $db->query($query);
-        echo '<pre>';
-        // foreach($stmnt as $user){
-        //     print_r($user);
-        // }
-
-        return View::make('index', ['foo' => 'bar']);
     }
 
-    public function upload()
+    public function index(): View
     {
-        var_dump($_FILES);
+        $this->emailService->send(array('Jacobs'), 'Hey Jacobs');
 
-        $filePath = STORAGE_PATH . '/' . $_FILES['file']['name'];
-
-        move_uploaded_file($_FILES['file']['tmp_name'], $filePath);
+        return View::make('index');
     }
 }
