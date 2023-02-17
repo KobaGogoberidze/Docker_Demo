@@ -12,15 +12,10 @@ use App\Services\SmsService;
 class App
 {
     private static DB $db;
-    private static Container $container;
 
     public function __construct(protected Router $router, protected array $request, protected Config $config)
     {
         static::$db = new DB($config->db ?? array());
-        static::$container = new Container();
-
-        static::$container->set(EmailService::class, fn () => new EmailService());
-        static::$container->set(SmsService::class, fn () => new SmsService());
     }
 
     public static function db()
