@@ -6,8 +6,6 @@ namespace App;
 
 use App\Config;
 use App\Exceptions\RouteNotFoundException;
-use App\Services\EmailService;
-use App\Services\SmsService;
 
 class App
 {
