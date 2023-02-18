@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Exceptions\ContainerException;
 use Psr\Container\ContainerInterface;
+use App\Exceptions\ContainerException;
 use App\Exceptions\InstanceNotFoundException;
-use ReflectionClass;
 
 class Container implements ContainerInterface
 {
