@@ -6,7 +6,7 @@ use App\Config;
 use App\Container;
 use App\Controllers;
 use App\Services\EmailService;
-use App\Services\Interfaces\CommunicationInterface;
+use App\Interfaces\CommunicationInterface;
 
 require_once '../vendor/autoload.php';
 

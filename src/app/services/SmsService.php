@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Services\Interfaces\CommunicationInterface;
+use App\Interfaces\CommunicationInterface;
 
 class SmsService implements CommunicationInterface
 {
