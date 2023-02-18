@@ -8,12 +8,22 @@ use App\Exceptions\ViewNotFoundException;
 
 class View
 {
+    /**
+     * @var string $view File name of the view
+     * @var array $params Parameters, that will be accesible in view file
+     */
+
     public function __construct(
         protected string $view = 'index',
-        protected array $params = []
+        protected array $params = array()
     ) {
     }
 
+    /**
+     * Generates view from file
+     * 
+     * @return string
+     */
     public function render(): string
     {
         $viewPath = VIEW_PATH . '/' . $this->view . '.php';
@@ -33,17 +43,37 @@ class View
         return (string) ob_get_clean();
     }
 
-    public static function make(string $view, array $params = []): View
+    /**
+     * Instantiates view object
+     * 
+     * @param string $view File name of the view
+     * @param array $params Parameters, that will be accesible in view file
+     * 
+     * @return View
+     */
+    public static function make(string $view, array $params = array()): View
     {
         return new static($view, $params);
     }
-
+    
+    /**
+     * Returns a string representation of view object
+     * 
+     * @return string
+     */
     public function __toString()
     {
         return $this->render();
     }
 
-    public function __get($name)
+    /**
+     * Get parameters
+     * 
+     * @param string $name
+     * 
+     * @return mixed
+     */
+    public function __get(string $name)
     {
         return $this->params[$name] ?? null;
     }
