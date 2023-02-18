@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Services\EmailService;
-use App\Services\SmsService;
 use App\View;
+use App\Services\Interfaces\CommunicationInterface;
 
 class HomeController
 {
-    public function __construct(protected EmailService $emailService, protected SmsService $smsService)
+    public function __construct(protected CommunicationInterface $emailService)
     {
     }
 

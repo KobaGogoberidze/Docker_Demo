@@ -18,7 +18,11 @@ class Container implements ContainerInterface
         if ($this->has($id)) {
             $instance = $this->instances[$id];
 
-            return $instance($this);
+            if (is_callable($instance)) {
+                return $instance($this);
+            }
+
+            $id = $instance;
         }
 
         return $this->resolve($id);
@@ -31,7 +35,7 @@ class Container implements ContainerInterface
         return isset($this->instances[$id]);
     }
 
-    public function set(string $id, callable $instanceProvider)
+    public function set(string $id, callable|string $instanceProvider)
     {
         $this->instances[$id] = $instanceProvider;
     }

@@ -1,14 +1,16 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Services;
 
-class EmailService
+use App\Services\Interfaces\CommunicationInterface;
+
+class EmailService implements CommunicationInterface
 {
     public function send(array $to, string $template): bool
     {
-        sleep(1);
+        // sleep(1);
 
         return true;
     }
