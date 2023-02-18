@@ -4,78 +4,93 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Enums\InstanceType;
 use Psr\Container\ContainerInterface;
 use App\Exceptions\ContainerException;
 use App\Exceptions\InstanceNotFoundException;
 
 class Container implements ContainerInterface
 {
-    private array $instances = array();
+    private array $entries = array();
 
-    public function get(string $id)
+    public function get(string $class)
     {
-        if ($this->has($id)) {
-            $instance = $this->instances[$id];
+        if ($this->has($class)) {
+            $entry = $this->entries[$class];
 
-            if (is_callable($instance)) {
-                return $instance($this);
+            if (is_object($entry)) {
+                return $entry;
             }
 
-            $id = $instance;
+            if (is_callable($entry)) {
+                return $entry($this);
+            }
+
+            $class = $entry;
         }
 
-        return $this->resolve($id);
+        return $this->resolve($class);
 
-        throw new InstanceNotFoundException("Instance for {$id} not found");
+        throw new InstanceNotFoundException("Instance for {$class} not found");
     }
 
-    public function has(string $id): bool
+    public function has(string $class): bool
     {
-        return isset($this->instances[$id]);
+        return isset($this->entries[$class]);
     }
 
-    public function set(string $id, callable|string $instanceProvider)
+    public function set(string $class, callable|string $provider, InstanceType $type = InstanceType::SCOPED)
     {
-        $this->instances[$id] = $instanceProvider;
+        if ($type == InstanceType::SINGLETON) {
+            if (is_callable($provider)) {
+                $this->entries[$class] = $provider($this);
+            } else {
+                $this->entries[$class] = $this->resolve($provider);
+            }
+        } else {
+            $this->entries[$class] = $provider;
+        }
+
+        return $this;
     }
 
-    private function resolve(string $id)
+    private function resolve(string $class)
     {
-        $reflectionClass = new \ReflectionClass($id);
+        $reflectionClass = new \ReflectionClass($class);
 
         if (!$reflectionClass->isInstantiable()) {
-            throw new ContainerException("Class {$id} is not instantiable");
+            throw new ContainerException("Class {$class} is not instantiable");
         }
 
         $constructor = $reflectionClass->getConstructor();
 
         if (!$constructor) {
-            return new $id;
+            return new $class;
         }
 
         $parameters = $constructor->getParameters();
 
         if (!$parameters) {
-            return new $id;
+            return new $class;
         }
 
-        $dependencies = array_map(function (\ReflectionParameter $parameter) use ($id) {
+        $dependencies = array_map(function (\ReflectionParameter $parameter) use ($class) {
             $name = $parameter->getName();
             $type = $parameter->getType();
 
             if (!$type) {
-                throw new ContainerException("Failed to resolve {$id} class. Param: {$name} is missing type hint");
+                throw new ContainerException("Failed to resolve {$class} class. Param: {$name} is missing type hint");
             }
 
             if ($type instanceof \ReflectionUnionType) {
-                throw new ContainerException("Failed to resolve {$id} class. Param: {$name} is union type");
+                throw new ContainerException("Failed to resolve {$class} class. Param: {$name} is union type");
             }
 
             if ($type instanceof \ReflectionNamedType && !$type->isBuiltin()) {
                 return $this->get($type->getName());
             }
 
-            throw new ContainerException("Failed to resolve {$id} class. Param: {$name} is invalid");
+            throw new ContainerException("Failed to resolve {$class} class. Param: {$name} is invalid");
         }, $parameters);
 
         return $reflectionClass->newInstanceArgs($dependencies);
