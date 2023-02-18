@@ -28,7 +28,7 @@ class Router
             $reflectionController = new \ReflectionClass($controller);
 
             foreach ($reflectionController->getMethods() as $method) {
-                $attributes = $method->getAttributes(Route::class);
+                $attributes = $method->getAttributes(Route::class, \ReflectionAttribute::IS_INSTANCEOF);
                 foreach ($attributes as $attribute) {
                     $route = $attribute->newInstance();
 
@@ -68,7 +68,6 @@ class Router
 
         if (is_array($action)) {
             [$class, $method] = $action;
-
             if (class_exists($class)) {
                 $instance = $this->container->get($class);
 
