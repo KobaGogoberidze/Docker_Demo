@@ -16,6 +16,7 @@ class HomeController
     }
 
     #[Get('/')]
+    #[Get('/home')]
     public function index(): View
     {
         $this->emailService->send(array('Jacobs'), 'Hey Jacobs');
