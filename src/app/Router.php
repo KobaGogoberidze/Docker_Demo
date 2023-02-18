@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Attributes\Route;
 use App\Exceptions\RouteNotFoundException;
 
 class Router
@@ -14,11 +15,27 @@ class Router
     {
     }
 
-    private function register(string $requestMethod, string $route, callable|array $action): self
+    public function register(string $requestMethod, string $route, callable|array $action): self
     {
         $this->routes[$requestMethod][$route] = $action;
 
         return $this;
+    }
+
+    public function registerControllerRoutes(array $controllers)
+    {
+        foreach ($controllers as $controller) {
+            $reflectionController = new \ReflectionClass($controller);
+
+            foreach ($reflectionController->getMethods() as $method) {
+                $attributes = $method->getAttributes(Route::class);
+                foreach ($attributes as $attribute) {
+                    $route = $attribute->newInstance();
+
+                    $this->register($route->method, $route->route, array($controller, $method->getName()));
+                }
+            }
+        }
     }
 
     public function get(string $route, callable|array $action)

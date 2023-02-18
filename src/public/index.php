@@ -23,7 +23,9 @@ $container = new Container();
 $container->set(CommunicationInterface::class, EmailService::class);
 
 $router = new Router($container);
-$router->get('/', array(Controllers\HomeController::class, 'index'));
+$router->registerControllerRoutes(array(
+    Controllers\HomeController::class
+));
 
 $app = new App($router, $request, $config);
 $app->run();
