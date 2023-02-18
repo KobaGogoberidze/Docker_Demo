@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Attributes\Route;
 use App\View;
-use App\Services\Interfaces\CommunicationInterface;
+use App\Attributes\Get;
+use App\Attributes\Post;
+use App\Interfaces\CommunicationInterface;
 
 class HomeController
 {
@@ -14,11 +15,17 @@ class HomeController
     {
     }
 
-    #[Route('/')]
+    #[Get('/')]
     public function index(): View
     {
         $this->emailService->send(array('Jacobs'), 'Hey Jacobs');
 
         return View::make('index');
+    }
+
+    #[Post('/store')]
+    public function store()
+    {
+        return [];
     }
 }
