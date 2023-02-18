@@ -1,31 +1,16 @@
 <?
 
 use App\App;
-use App\Router;
-use App\Config;
-use App\Container;
 use App\Controllers;
-use App\Services\EmailService;
-use App\Interfaces\CommunicationInterface;
 
 require_once '../vendor/autoload.php';
+require_once '../app/Bootstrap.php';
 
-$dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
 
-define('STORAGE_PATH', __DIR__ . '/../uploads');
-define('VIEW_PATH', __DIR__ . '/../views');
+$app = new App($container);
+$app->getRouter()
+    ->registerControllerRoutes(array(
+        Controllers\HomeController::class
+    ));
 
-$config = new Config($_ENV);
-$request = array('uri' => $_SERVER['REQUEST_URI'], 'method' => $_SERVER['REQUEST_METHOD']);
-
-$container = new Container();
-$container->set(CommunicationInterface::class, EmailService::class);
-
-$router = new Router($container);
-$router->registerControllerRoutes(array(
-    Controllers\HomeController::class
-));
-
-$app = new App($router, $request, $config);
 $app->run();
