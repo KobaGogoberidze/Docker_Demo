@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Attributes\Route;
+use App\Enums\RequestMethod;
 use App\Exceptions\RouteNotFoundException;
 
 class Router
@@ -15,9 +16,9 @@ class Router
     {
     }
 
-    public function register(string $requestMethod, string $route, callable|array $action): self
+    public function register(RequestMethod $method, string $route, callable|array $action)
     {
-        $this->routes[$requestMethod][$route] = $action;
+        $this->routes[$method->value][$route] = $action;
 
         return $this;
     }
@@ -29,9 +30,9 @@ class Router
 
             foreach ($reflectionController->getMethods() as $method) {
                 $attributes = $method->getAttributes(Route::class, \ReflectionAttribute::IS_INSTANCEOF);
+
                 foreach ($attributes as $attribute) {
                     $route = $attribute->newInstance();
-
                     $this->register($route->method, $route->route, array($controller, $method->getName()));
                 }
             }
@@ -40,12 +41,12 @@ class Router
 
     public function get(string $route, callable|array $action)
     {
-        return $this->register('get', $route, $action);
+        return $this->register(RequestMethod::GET, $route, $action);
     }
 
     public function post(string $route, callable|array $action)
     {
-        return $this->register('post', $route, $action);
+        return $this->register(RequestMethod::POST, $route, $action);
     }
 
     public function routes(): array
@@ -53,10 +54,10 @@ class Router
         return $this->routes;
     }
 
-    public function resolve(string $requestUrl, string $requestMethod)
+    public function resolve(Request $request)
     {
-        $route = explode('?', $requestUrl)[0];
-        $action = $this->routes[$requestMethod][$route] ?? null;
+        $route = explode('?', $request->getUri())[0];
+        $action = $this->routes[$request->getMethod()->value][$route] ?? null;
 
         if (!$action) {
             throw new RouteNotFoundException();
