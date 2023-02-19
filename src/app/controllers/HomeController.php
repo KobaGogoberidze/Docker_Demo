@@ -21,7 +21,7 @@ class HomeController
     {
         $this->emailService->send(array('Jacobs'), 'Hey Jacobs');
 
-        return View::make('index');
+        return View::make('index', array(), 'layout');
     }
 
     #[Post('/store')]
