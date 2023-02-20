@@ -1,5 +1,6 @@
 <?
 
+use App\DB;
 use App\App;
 use App\Config;
 use App\Router;
@@ -19,12 +20,17 @@ $container
     ->set(Config::class, fn () => new Config($_ENV), InstanceType::SINGLETON)
     ->set(Request::class, fn () => new Request($_SERVER), InstanceType::SINGLETON)
     ->set(Router::class, Router::class, InstanceType::SINGLETON)
+    ->set(DB::class, function (Container $container) {
+        $config = $container->get(Config::class);
+
+        return new DB($config->db);
+    }, InstanceType::SINGLETON)
     ->set(CommunicationInterface::class, EmailService::class);
 
 $app = new App($container);
 $app->getRouter()
     ->registerControllerRoutes(array(
-        Controllers\HomeController::class
+        Controllers\HomeController::class,
+        Controllers\CustomerController::class
     ));
-
 $app->run();

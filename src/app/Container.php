@@ -10,21 +10,21 @@ use App\Exceptions\ContainerException;
 use App\Exceptions\InstanceNotFoundException;
 
 /**
- * A simple container that allows for dependency injection and lazy instantiation of classes and their dependencies.
+ * A simple container that allows for dependency injection and lazy instantiation of classes and their dependencies
  */
 class Container implements ContainerInterface
 {
     private array $entries = array();
 
     /**
-     * Retrieves an entry of the container by its identifier.
+     * Retrieves an entry of the container by its identifier
      *
-     * @param string $class The identifier of the entry to look for.
+     * @param string $class The identifier of the entry to look for
      *
      * @return mixed The entry.
      *
-     * @throws InstanceNotFoundException If no entry was found for this identifier.
-     * @throws ContainerException If there is an error while resolving the entry.
+     * @throws InstanceNotFoundException If no entry was found for this identifier
+     * @throws ContainerException If there is an error while resolving the entry
      */
     public function get(string $class)
     {
@@ -46,11 +46,11 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Checks if an entry exists for the given identifier.
+     * Checks if an entry exists for the given identifier
      *
-     * @param string $class The identifier of the entry to check for.
+     * @param string $class The identifier of the entry to check for
      *
-     * @return bool True if the container has the identifier, false otherwise.
+     * @return bool True if the container has the identifier, false otherwise
      */
     public function has(string $class): bool
     {
@@ -58,16 +58,16 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Registers an entry with the container.
+     * Registers an entry with the container
      *
-     * @param string $class The identifier of the entry to register.
-     * @param callable|string $provider A factory function or class name that provides the entry.
-     * @param InstanceType $type The type of the entry to register (either singleton or scoped).
+     * @param string $class The identifier of the entry to register
+     * @param callable|string $provider A factory function or class name that provides the entry
+     * @param InstanceType $type The type of the entry to register (either singleton or scoped)
      *
-     * @return Container This container.
+     * @return Container This container
      * 
-     * @throws InstanceNotFoundException If no entry was found for this identifier.
-     * @throws ContainerException If there is an error while resolving the class or its dependencies.
+     * @throws InstanceNotFoundException If no entry was found for this identifier
+     * @throws ContainerException If there is an error while resolving the class or its dependencies
      */
     public function set(string $class, callable|string $provider, InstanceType $type = InstanceType::SCOPED): Container
     {
@@ -85,14 +85,14 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Resolves a class and its dependencies from the container.
+     * Resolves a class and its dependencies from the container
      *
-     * @param string $class The name of the class to resolve.
+     * @param string $class The name of the class to resolve
      *
-     * @return mixed An instance of the resolved class.
+     * @return mixed An instance of the resolved class
      *
-     * @throws InstanceNotFoundException If no entry was found for this identifier.
-     * @throws ContainerException If there is an error while resolving the class or its dependencies.
+     * @throws InstanceNotFoundException If no entry was found for this identifier
+     * @throws ContainerException If there is an error while resolving the class or its dependencies
      */
     private function resolve(string $class)
     {

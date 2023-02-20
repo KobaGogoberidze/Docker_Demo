@@ -6,10 +6,10 @@ namespace App;
 
 abstract class Model
 {
-    protected DB $db;
+    protected DB $DB;
 
     public function __construct()
     {
-        $this->db = App::db();
+        $this->DB = App::getDB();
     }
 }

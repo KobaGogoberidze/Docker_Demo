@@ -21,7 +21,9 @@ class ComposerStaticInit2c120a07c0dcc01b460e4506fd55b20a
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
+            'Psr\\Cache\\' => 10,
             'PhpOption\\' => 10,
         ),
         'G' => 
@@ -31,6 +33,10 @@ class ComposerStaticInit2c120a07c0dcc01b460e4506fd55b20a
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Doctrine\\Deprecations\\' => 22,
+            'Doctrine\\DBAL\\' => 14,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\' => 16,
         ),
         'A' => 
         array (
@@ -51,9 +57,17 @@ class ComposerStaticInit2c120a07c0dcc01b460e4506fd55b20a
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'PhpOption\\' => 
         array (
@@ -66,6 +80,22 @@ class ComposerStaticInit2c120a07c0dcc01b460e4506fd55b20a
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/lib/Doctrine/Deprecations',
+        ),
+        'Doctrine\\DBAL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/dbal/src',
+        ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/src',
         ),
         'App\\' => 
         array (

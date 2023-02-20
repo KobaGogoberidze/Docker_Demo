@@ -21,7 +21,7 @@
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Jacobs Monarch</a>
     </nav>
 
     <div class="container-fluid">
@@ -30,39 +30,15 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <span data-feather="home"></span>
-                                Dashboard <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/invoices">
                                 <span data-feather="file"></span>
-                                Orders
+                                Invoices
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="shopping-cart"></span>
-                                Products
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="/customers">
                                 <span data-feather="users"></span>
                                 Customers
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="bar-chart-2"></span>
-                                Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="layers"></span>
-                                Integrations
                             </a>
                         </li>
                     </ul>
@@ -70,9 +46,6 @@
             </nav>
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-                    <h1 class="h2">Dashboard</h1>
-                </div>
                 {{ content }}
             </main>
         </div>

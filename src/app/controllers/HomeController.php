@@ -6,8 +6,8 @@ namespace App\Controllers;
 
 use App\View;
 use App\Attributes\Get;
-use App\Attributes\Post;
 use App\Interfaces\CommunicationInterface;
+use App\Models\Invoice;
 
 class HomeController
 {
@@ -16,17 +16,13 @@ class HomeController
     }
 
     #[Get('/')]
-    #[Get('/home')]
+    #[Get('/invoices')]
     public function index(): View
     {
-        $this->emailService->send(array('Jacobs'), 'Hey Jacobs');
+        $invoice = new Invoice();
 
-        return View::make('index', array(), 'layout');
-    }
-
-    #[Post('/store')]
-    public function store()
-    {
-        return [];
+        return View::make('invoice/index', array(
+            'invoices' => $invoice->all()
+        ), 'layout');
     }
 }

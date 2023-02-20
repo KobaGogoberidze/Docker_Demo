@@ -8,6 +8,7 @@
     },
     "require": {
         "vlucas/phpdotenv": "^5.5",
-        "psr/container": "^2.0"
+        "psr/container": "^2.0",
+        "doctrine/dbal": "^3.6"
     }
 }
